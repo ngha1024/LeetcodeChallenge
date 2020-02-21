@@ -1,0 +1,46 @@
+public class Solution 
+{
+    int kDimension = 8;
+    int[] dimensionX = new int[] {0, 1, 0, -1, 1, 1, -1, -1};
+    int[] dimensionY = new int[] {1, 0, -1, 0, 1, -1, 1, -1};
+    
+    public char[][] UpdateBoard(char[][] board, int[] click) 
+    {
+        int x = click[0], y = click[1];
+        
+        // If click on mine square then loose game
+        if(board[x][y] == 'M') 
+        {
+            board[x][y] = 'X';
+            return board;
+        }
+        
+        // 
+        OpenSquare(board, x, y);
+        return board;
+    }
+    
+    private void OpenSquare(char[][] board, int x, int y)
+    {
+        int boardX = board.Length, boardY = board[0].Length;
+        if(x < 0 || x >= boardX ||
+           y < 0 || y >= boardY ||
+           board[x][y] != 'E')
+            return;
+        
+        var mineCount = '0';
+        for(int i = 0; i < kDimension; i++)
+        {
+            int nextX = x + dimensionX[i], nextY = y + dimensionY[i];
+            if(nextX >= 0 && nextX < boardX &&
+               nextY >= 0 && nextY < boardY &&
+               board[nextX][nextY] == 'M')
+                mineCount++;
+        }
+        
+        board[x][y] = mineCount == '0' ? 'B' : mineCount;
+        if(mineCount == '0')
+            for(int i = 0; i < kDimension; i++)
+                OpenSquare(board, x + dimensionX[i], y + dimensionY[i]);
+    }
+}
