@@ -24,7 +24,7 @@ public class Solution
     {
         int boardX = board.Length, boardY = board[0].Length;
         
-        // Abnormal input
+        // Abnormal input x, y or clicked on revealed square
         if(x < 0 || x >= boardX ||
            y < 0 || y >= boardY ||
            board[x][y] != 'E')
